@@ -1,12 +1,14 @@
 #!/usr/bin/python3
+
+
 def safe_print_list_integers(my_list=[], x=0):
-    printed = 0
-    if(my_list):
-        for i in range(x):
-            try:
-                print("{:d}".format(my_list[i]), end='')
-                printed += 1
-            except(ValueError, TypeError):
-                pass
+    """Print a list of integers with exception handling"""
+    tot = 0
+    for i in range(0, x):
+        try:
+            print("{:d}".format(my_list[i]), end="")
+            tot = tot + 1
+        except (ValueError, TypeError):
+            pass
     print()
-    return(printed)
+    return tot
