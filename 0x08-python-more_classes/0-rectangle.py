@@ -3,6 +3,6 @@
 class Rectangle:
     """ A rectangle """
 
-    def__init__(self):
+    def __init__(self):
         """create a rectangle"""
     pass
