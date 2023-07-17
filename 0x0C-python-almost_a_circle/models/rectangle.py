@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-""" module: models """
+# comment
+"""module: models"""
 import models.base
 Base = models.base.Base
 
@@ -7,28 +8,31 @@ Base = models.base.Base
 class Rectangle (Base):
     """class: Rectangle"""
 
-    def val_int(self, name, val, vs=">":
-            """Validating an int and throw an error if something is n wrong"""
-            if type(val) is not int:
-                raise TypeError("{} must be an integer".format(name))
-            if vs == ">" and val <= 0:
-                raise ValueError("{} must be {} be 0".format(name, vs))
-            if vs == ">=" and val < 0:
-                raise ValueError("{} must be {} 0".format(name, vs))
+    def val_int(self, name, val, vs=">"):
+        """Validate an int and throw an error if something's wrong"""
+        if type(val) is not int:
+            raise TypeError("{} must be an integer".format(name))
+        if vs == ">" and val <= 0:
+            raise ValueError("{} must be {} 0".format(name, vs))
+        if vs == ">=" and val < 0:
+            raise ValueError("{} must be {} 0".format(name, vs))
+
     def __str__(self):
-    """Return a str representation of the object"""
+        """Return a str representation of the object"""
         name = "[Rectangle]"
-        obt1 = " ({}) {}/{}".format(self.id, self.x, self.y)
-        obt2 = " - {}/{}".format(self.width, self.height)
+        dat = " ({}) {}/{}".format(self.id, self.x, self.y)
+        dat2 = " - {}/{}".format(self.width, self.height)
+        return name + dat + dat2
 
     def __init__(self, width, height, x=0, y=0, id=None):
-    """init"""
+        """Init"""
         self.width = width
         self.height = height
         self.x = x
         self.y = y
         super().__init__(id)
-       @property
+
+    @property
     def width(self):
         """Get width"""
         return self.__width
@@ -73,20 +77,20 @@ class Rectangle (Base):
         self.__y = value
 
     def area(self):
-    """ Returns the value area"""
+        """Return the area"""
         return self.width * self.height
 
     def to_dictionary(self):
-        """ Return the dictionary representations of this object"""
-        rpr = {}
+        """Return the dictionary representation of this object"""
+        tmp = {}
         x = vars(self)
-        for k ,v in x.items():
-            rpr[k.split('__')[-1]] = v
-        return rpr
+        for k, v in x.items():
+            tmp[k.split('__')[-1]] = v
+        return tmp
 
     def update(self, *args, **kwargs):
-         """Update the attributes of the object"""
-         if args is not None and args != ():
+        """Update the attributes of this object"""
+        if args is not None and args != ():
             self.id = args[0]
             if len(args) > 1:
                 self.width = args[1]
@@ -101,11 +105,11 @@ class Rectangle (Base):
                 setattr(self, k, v)
 
     def display(self):
-    """print to stdout the rectangle"""
-        st = ""
+        """Print a representation of this object to stdout"""
+        rep = ""
         front = (" " * self.x)
-        st = st + ("\n" * self.y)
-        line = ("#"* self.width) + "\n"
+        rep = rep + ("\n" * self.y)
+        line = ("#" * self.width) + "\n"
 
-        st = st + ((front + line) * self.height)
-        print(st, end="")
+        rep = rep + ((front + line) * self.height)
+        print(rep, end="")
