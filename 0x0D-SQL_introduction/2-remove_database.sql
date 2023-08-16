@@ -1,3 +1,3 @@
 -- Deletes  data base
--- Onky if it exists
-DROP DATABASE IF EXISTS hbtn_0c_0
+-- Onky if it existi
+DROP DATABASE IF EXISTS hbtn_0c_0;
