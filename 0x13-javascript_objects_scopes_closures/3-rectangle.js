@@ -6,15 +6,15 @@ class Rectangle {
       this.width = width;
       this.height = height;
     }
-  
- }
-	print () {
-		const x = this.width;
-		let y = this.height;
-		while (y > 0) {
-			console.log('X'.repeat(x));
-			y = y - 1;
-		}
-	}
+  }
+
+  print () {
+    const x = this.width;
+    let y = this.height;
+    while (y > 0) {
+      console.log('X'.repeat(x));
+      y = y - 1;
+    }
+  }
 }
 module.exports = Rectangle;
