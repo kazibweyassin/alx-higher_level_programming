@@ -1,21 +1,36 @@
 #!/usr/bin/python3
 import MySQLdb
-import sys
-from sysmimport argv
+from sys import argv
 
-"""Once again, write a script that takes in arguments safe from MySQL injections!"""
+""" This module lists entries in a table that match a name sans SQLi"""
 
 if __name__ == '__main__':
-    connection = MySQLdb.connect(host="localhost", port=3306, username=argv[1], password=argv[2], database=argv[3])
-    curs = connection.cursor()
-    x =  argv[4].split("'")[0]
+    # Check if the correct number of arguments is provided
+    if len(argv) != 5:
+        print("Usage: {} <username> <password> <database> <state_name>".format(argv[0]))
+        exit(1)
 
-    s = "SELECT * FROM states WHERE name = '{}' ORDER BY id" .format(x)
-    s = s + "ASC"
-    curs.execute(s)
-    rows = curs.fetchall()
-    for row in rows:
-        if row[1] == argv[4]:
-            print(row)       
-    curs.close()
-    connection.close()
+    # Connect to the MySQL server running on localhost at port 3306
+    mydb = MySQLdb.connect(host="localhost", port=3306,
+                          user=argv[1], passwd=argv[2], db=argv[3])
+
+    cur = mydb.cursor()
+    state_name = argv[4]
+
+    # Construct the SQL query with a parameterized query
+    query = "SELECT * FROM states WHERE name = %s ORDER BY id ASC LIMIT 1"
+
+    try:
+        # Execute the query with the state_name as a parameter
+        cur.execute(query, (state_name,))
+        row = cur.fetchone()
+        
+        if row:
+            print(row)
+    
+    except Exception as e:
+        print("Error: {}".format(e))
+
+    finally:
+        cur.close()
+        mydb.close()
