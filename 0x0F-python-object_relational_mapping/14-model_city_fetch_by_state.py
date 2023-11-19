@@ -1,8 +1,8 @@
 #!/usr/bin/python3
 """Start link class to table in database"""
 import sys
-from relationship_state import Base, State
-from relationship_city import City
+from model_state import Base, State
+from model_city import City
 
 from sqlalchemy import (create_engine)
 
@@ -19,9 +19,9 @@ if __name__ == "__main__":
     Session.configure(bind=engine)
     session = Session()
 
-    q = session.query(State).order_by(State.id)
+    q = session.query(City).order_by(City.id)
     for row in q.all():
-        print(str(row.id) + ": " + str(row.name))
-        for c in row.cities:
-            print("\t" + str(c.id) + ": " + str(c.name))
-    session.close()
+        q2 = session.query(State).filter(State.id == row.state_id)
+        row2 = q2.first()
+        if row2:
+            print(str(row2.name) + ": (" + str(row.id) + ") " + str(row.name))
