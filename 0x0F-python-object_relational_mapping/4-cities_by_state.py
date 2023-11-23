@@ -1,19 +1,30 @@
 #!/usr/bin/python3
-import MySQLdb
-from sys import argv
+"""
+  This is a script that lists all states from the database hbtn_0e_0_usa
+    using MySQLdb ORM
+"""
 
-""" This module lists entries in a table that match a name sans SQLi"""
 
-if __name__ == '__main__':
-      # argv: 1 is username, 2 is pass, 3 is db name
-     sql = MySQLdb.connect(host="localhost", port=3306,
-     user=argv[1], passwd=argv[2], db=argv[3])
-     cur = sql.cursor()
-     s = "SELECT c.id, c.name, s.name FROM cities c LEFT JOIN states s"
-     s =  s + " ON c.state_id = s.id ORDER BY c.id ASC"
-     cur.execute(s)
-     rows = cur.fetchall()
-     for row in rows:
-         print(row)   
-cur.close()
-sql.close()
+def select_states(username, password, database):
+    """ Function that print the states """
+    import MySQLdb
+
+    database = MySQLdb.connect(user=username, passwd=password, db=database)
+    cur = database.cursor()
+    cur.execute("""SELECT cities.id, cities.name, states.name
+                FROM cities
+                INNER JOIN states ON cities.state_id = states.id
+                ORDER BY cities.id ASC;""")
+    items = cur.fetchall()
+    for item in items:
+        print(item)
+    cur.close()
+    database.close()
+
+
+if __name__ == "__main__":
+    import sys
+    usr = sys.argv[1]
+    pwd = sys.argv[2]
+    db = sys.argv[3]
+    select_states(usr, pwd, db)

@@ -1,18 +1,28 @@
 #!/usr/bin/python3
-import MySQLdb
-from sys import argv
+"""
+  This is a script that lists all states from the database hbtn_0e_0_usa
+    using MySQLdb ORM
+"""
 
-if __name__ == '__main__':
-        # argv: 1 is username, 2 is pass, 3 is db name
-            sql = MySQLdb.connect(host="localhost", port=3306,
-                                              user=argv[1], password=argv[2],db=argv[3])
-            curs =sql.cursor()
-            query = "SELECT * FROM states WHERE name LIKE 'N%' ORDER BY id ASC"
-            curs.execute(query)
 
-            rows = curs.fetchall()
-            for row in rows:
-                if row[1] [0] =="N":
-                    print(row)
-            curs.close()
-            sql.close
+def select_states(username, password, database):
+    """ Function that print the states """
+    import MySQLdb
+
+    database = MySQLdb.connect(user=username, passwd=password, db=database)
+    cur = database.cursor()
+    cur.execute("SELECT * FROM states WHERE name LIKE 'N%'")
+    items = cur.fetchall()
+    for item in items:
+        if item[1][0] == 'N':
+            print(item)
+    cur.close()
+    database.close()
+
+
+if __name__ == "__main__":
+    import sys
+    usr = sys.argv[1]
+    pwd = sys.argv[2]
+    db = sys.argv[3]
+    select_states(usr, pwd, db)

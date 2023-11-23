@@ -1,37 +1,29 @@
 #!/usr/bin/python3
-import MySQLdb
-import sys
+"""
+  This is a script that lists all states from the database hbtn_0e_0_usa
+    using MySQLdb ORM
+"""
 
-def main():
-#Check if the correct number of arguments is provided
-    if len(sys.argv) != 5:
-        print("Usage: {} <username> <password> <database> <state_name>".format(sys.argv[0]))
-        sys.exit(1)
 
-        username = sys.argv[1]
-        password = sys.argv[2]
-        database = sys.argv[3]
-        state_name = sys.argv[4]
+def select_states(username, password, database, name):
+    """ Function that print the states """
+    import MySQLdb
 
-        db = MySQLdb.connect(
-                 host="localhost",
-                 port=3306,
-                 user=username,
-                 passwd=pasword,
-                 db=database
-                 )
-        cursor = db.cursor()
-        query = "SELECT * FROM states WHERE name='{}' ORDER BY id".format(state_name)
+    database = MySQLdb.connect(user=username, passwd=password, db=database)
+    cur = database.cursor()
+    cur.execute("SELECT * FROM states WHERE name = \'{}\'".format(name))
+    items = cur.fetchall()
+    for item in items:
+        if item[1] == name:
+            print(item)
+    cur.close()
+    database.close()
 
-        try:
-            cursor.execute(query)
-            row = cursor.fetchone()
-            if row:
-                print(row)
-        except Exception as e:
-            print("Error: {}".format(e))
-        finally:
-            cursor.close()
-            db.close()
-        if __name__ == "__main__":
-                main()
+
+if __name__ == "__main__":
+    import sys
+    usr = sys.argv[1]
+    pwd = sys.argv[2]
+    db = sys.argv[3]
+    name = sys.argv[4]
+    select_states(usr, pwd, db, name)
