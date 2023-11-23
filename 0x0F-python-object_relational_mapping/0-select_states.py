@@ -1,17 +1,23 @@
 #!/usr/bin/python3
 import MySQLdb
-from sys import argv
-#This module lists all entries in the table
+import sys
+
+""" This scripts lists all states from the database"""
+
+def get_states(username, password, database):
+    """This function prints the states"""
+    database = MySQLdb.connect(user=username, passwd=password, db=database)
+    cur = database.cursor()
+    cur.execute("SELECT * FROM states")
+    items = cur.fetchall()
+    for item in items:
+        print(item)
+    cur.close()
+    database.close()
+
 
 if __name__ == '__main__':
-    #argv: 1 is username, 2 is pass , 3 is db name
-    sql = MySQLdb.connect(host="localhost", port=3306,
-            user=argv[1], password=argv[2], db=argv[3])
-
-    curs = sql.cursor()
-    curs.execute("SELECT * FROM states ORDER BY id ASC")
-    rows = curs.fetchall()
-    for row in rows:
-        print(row)
-    curs.close()
-    sql.close()
+    usr = sys.argv[1]
+    pwd = sys.argv[2]
+    db = sys.argv[3]
+    get_states(usr, pwd, db)
