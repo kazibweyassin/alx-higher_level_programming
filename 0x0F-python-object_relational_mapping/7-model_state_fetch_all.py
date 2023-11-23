@@ -1,23 +1,17 @@
 #!/usr/bin/python3
-"""Start link class to table in database"""
+"""List all states objectives from the database"""
 import sys
-from model_state import Base, State
-
-from sqlalchemy import (create_engine)
+from sqlalchemy import create_engine
+from model_state import State
+from sqlalchemy.orm import sessionmaker  # Fix: Added "orm" here
 
 if __name__ == "__main__":
-    x = 'mysql+mysqldb://{}:{}@localhost/{}'.format(sys.argv[1],
-                                                    sys.argv[2],
-                                                    sys.argv[3])
-    engine = create_engine(x, pool_pre_ping=True)
-    Base.metadata.create_all(engine)
 
-    from sqlalchemy.orm import sessionmaker
-
-    Session = sessionmaker()
-    Session.configure(bind=engine)
+    engine = create_engine("mysql+mysqlconnector://{}:{}@localhost/{}"
+                            .format(sys.argv[1], sys.argv[2], sys.argv[3]),
+                            pool_pre_ping=True)
+    Session = sessionmaker(bind=engine)
     session = Session()
 
-    q = session.query(State).order_by(State.id)
-    for row in q.all():
-        print(str(row.id) + ": " + str(row.name))
+    for state in session.query(State).order_by(State.id):
+        print("{}: {}".format(state.id, state.name))
