@@ -1,9 +1,10 @@
 #!/usr/bin/python3
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy import Column, Integer, String, create_engine
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base
+from sqlalchemy import Column, Integer, String
 
-Base = declarative_base():
+""" Module for the class definition of a state"""
+
+Base = declarative_base()
 
 class State(Base):
     """Represent a state for Mysql database.
@@ -12,5 +13,5 @@ class State(Base):
     name (sqlalchemy.String): The state's name.
     """
     __tablename__ = "states"
-    id = Column(Integer, primary_key=True)
-    name = column(String(128), nullable=False)
+    id = Column(Integer, nullable=False, primary_key=True, autoincrement=True)
+    name = Column(String(128), nullable=False)
