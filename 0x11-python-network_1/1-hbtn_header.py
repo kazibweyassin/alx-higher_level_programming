@@ -6,7 +6,7 @@ import sys
 
 if __name__ == "__main__":
     # Check if the correct number of arguments is provided
-    if len(sys.argv) != 2:
+    """if len(sys.argv) != 2:
         print("Usage: python script.py <URL>")
         sys.exit(1)
 
@@ -24,4 +24,7 @@ if __name__ == "__main__":
     except urllib.error.URLError as e:
         print("Error:", e)
     except Exception as e:
-        print("An error occurred:", e)
+        print("An error occurred:", e)"""
+    url = sys.argv[1]
+    with urllib.request.urlopen(url) as response:
+        print(response.getheader('X-Request-Id'))
