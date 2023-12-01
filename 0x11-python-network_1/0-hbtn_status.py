@@ -1,5 +1,5 @@
 #!/usr/bin/python3
-""" This modudile  uses the Universal resource library to make a request"""
+""" This module  uses the Universal resource library to make a fetch request"""
 
 import urllib.request
 
