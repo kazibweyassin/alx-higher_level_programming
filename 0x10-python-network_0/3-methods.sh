@@ -1,4 +1,3 @@
 #!/bin/bash
 # request all http verbs available
-curl -sIX OPTIONS "$1" | grep -Po "(?<=Allow: ).*"
-
+curl -s -I -X OPTIONS "$1" | grep 'Allow:' | cut -f2- -d' '
