@@ -1,5 +1,3 @@
 #!/bin/bash
-# Send a POST request with email subject set with values
-curl -sd "email=hr%4test@gmail.com:wq
-l%2Ecom&subject=I+will+always+be+here+for+PLD" "$1"
-
+# script to post data (url-encoded) to a server
+curl -s -d "email=test@gmail.com&subject=I%20will%20always%20be%20here%20for%20PLD" -X POST "$1"
